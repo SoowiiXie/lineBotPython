@@ -14,3 +14,8 @@ sqlparse==0.3.0
 static3==0.7.0
 urllib3==1.24.2
 twder==0.1.4
+Flask==1.1.1
+html5lib==1.0.1
+json5==0.8.5
+lxml==4.4.1
+sqlparse==0.3.0
