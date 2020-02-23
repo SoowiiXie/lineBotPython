@@ -71,7 +71,8 @@ def sendFlex(event, backdata):  #彈性配置
                             ButtonComponent(
                                 style='secondary',
                                 height='sm',
-                                action=URIAction(label='查看網頁', uri="http://www.e-happy.com.tw")
+                                action=URIAction(label='查看網頁',\
+                                                 uri="https://javababy.herokuapp.com/")
                             )
                         ]
                     )
