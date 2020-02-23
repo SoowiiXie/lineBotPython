@@ -12,7 +12,7 @@ def sendFlex(event, backdata):  #彈性配置
             header=BoxComponent(  #標題
                 layout='vertical',
                 contents=[
-                    TextComponent(text='可以跑就是Runnable', weight='bold', size='xxl'),
+                    TextComponent(text='可以跑就是Runnable', weight='bold', size='xl'),
                 ]
             ),
             hero=ImageComponent(  #主圖片
