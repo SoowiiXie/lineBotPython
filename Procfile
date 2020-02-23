@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath linebotInvoice linebotInvoice.wsgi
+web: gunicorn --pythonpath AngelaPythy AngelaPythy.wsgi
