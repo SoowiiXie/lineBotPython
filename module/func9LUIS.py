@@ -107,7 +107,8 @@ def sendLUIS(event, mtext):  #LUIS
                     data = timeblock[2][0].text
                     weather = weather + tlist[i] + '：' + data + '\n'
                 weather = weather[:-1]  #移除最後一個換行
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=weather))
+                line_bot_api.reply_message(event.reply_token,\
+                                           TextSendMessage(text=weather))
             else:
                 line_bot_api.reply_message(event.reply_token,\
                                            TextSendMessage(text='無此地點天氣資料！'))
@@ -120,7 +121,8 @@ def sendLUIS(event, mtext):  #LUIS
                     message = message + tlist[i] + '= ' + str(exchange)
                     if i != 3:
                         message = message + '\n'
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+                line_bot_api.reply_message(event.reply_token,\
+                                           TextSendMessage(text=message))
             else:
                 line_bot_api.reply_message(event.reply_token,\
                                            TextSendMessage(text='無此幣別匯率資料！'))
