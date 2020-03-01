@@ -4,17 +4,17 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage,TemplateSendMessage,\
 ConfirmTemplate,PostbackTemplateAction
 
-from PythyAPI.models import booking2, users
+from PythyAPI.models import teamUp, users
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
 def sendCancel(event, user_id):  #取消訂房
     try:
-        if booking2.objects.filter(bid=user_id).exists():  #已有訂房記錄
-            booking2data = booking2.objects.get(bid=user_id)  #讀取訂房資料
-            place = booking2data.place
-            amount = booking2data.amount
-            timein = booking2data.timein
+        if teamUp.objects.filter(bid=user_id).exists():  #已有訂房記錄
+            teamUpdata = teamUp.objects.get(bid=user_id)  #讀取訂房資料
+            place = teamUpdata.place
+            amount = teamUpdata.amount
+            timein = teamUpdata.timein
             text1 = "您的揪團資料如下："
             text1 += "\n場地：" + place
             text1 += "\n人數：" + amount + " 人"
@@ -51,20 +51,25 @@ def sendCancel(event, user_id):  #取消訂房
 
 def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
     try:
-        flist = mtext[3:].split('/')  #去除前三個「#」字元再分解字串
-        place = flist[0]  #取得輸入資料
-        amount = flist[1]
-        timein = flist[2]
-        unit = booking2.objects.create(bid=user_id, place=place, amount=amount,\
-                                      timein=timein)  #寫入資料庫
-        unit.save()
-        text1 = "您的揪團資料如下："
-        text1 += "\n場地：" + place
-        text1 += "\n人數：" + amount + " 人"
-        text1 += "\n日期：" + timein.replace("T","\n時間：")
-        message = TextSendMessage(  #顯示訂房資料
-            text = text1
-        )
+        if not (teamUp.objects.filter(bid=user_id).exists()):  #沒有訂房記錄
+            flist = mtext[3:].split('/')  #去除前三個「#」字元再分解字串
+            place = flist[0]  #取得輸入資料
+            amount = flist[1]
+            timein = flist[2]
+            unit = teamUp.objects.create(bid=user_id, place=place, amount=amount,\
+                                          timein=timein)  #寫入資料庫
+            unit.save()
+            text1 = "您的揪團資料如下："
+            text1 += "\n場地：" + place
+            text1 += "\n人數：" + amount + " 人"
+            text1 += "\n日期：" + timein.replace("T","\n時間：")
+            message = TextSendMessage(  #顯示訂房資料
+                text = text1
+            )
+        else:  #已有訂房記錄
+            message = TextSendMessage(
+                text = '您目前已有揪團，不能再揪團。'
+            )
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,\
@@ -72,7 +77,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
 
 def sendYes(event, user_id):  #處理取消訂房
     try:
-        datadel = booking2.objects.get(bid=user_id)  #從資料庫移除資料記錄
+        datadel = teamUp.objects.get(bid=user_id)  #從資料庫移除資料記錄
         datadel.delete()
         message = TextSendMessage(
             text = "您的揪團已成功刪除。\n謝謝！"

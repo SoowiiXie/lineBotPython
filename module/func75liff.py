@@ -2,13 +2,13 @@ from django.conf import settings
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, BubbleContainer, ImageComponent, BoxComponent, TextComponent, IconComponent, ButtonComponent, SeparatorComponent, FlexSendMessage, URIAction
-from PythyAPI.models import booking2
+from PythyAPI.models import teamUp
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
 def sendFlex(event, backdata, user_id):  #彈性配置
     try:
-        if not (booking2.objects.filter(bid=user_id).exists()):  #沒有訂房記錄
+        if not (teamUp.objects.filter(bid=user_id).exists()):  #沒有訂房記錄
             bubble = BubbleContainer(
                 direction='ltr',  #項目由左向右排列
                 header=BoxComponent(  #標題
