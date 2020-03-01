@@ -10,7 +10,7 @@ line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 def sendDatetime(event, backdata):  #日期時間
     try:
         message = TemplateSendMessage(
-            alt_text='日期時間範例',
+            alt_text='日期時間選取',
             template=ButtonsTemplate(
                 thumbnail_image_url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
                 title='日期時間示範',

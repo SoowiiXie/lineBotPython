@@ -14,6 +14,7 @@ from module import func75liff
 from module import func9LUIS
 from module import func10login
 from module import func11translate
+from module import func12liff
 
 import variable_settings as varset
 from urllib.parse import parse_qsl
@@ -39,7 +40,7 @@ def callback(request):
                 userid = event.source.user_id
                 userid, lang, sound = readData(event)
                 if not users.objects.filter(uid=userid).exists():
-                    unit = users.objects.create(uid=userid, state='no')
+                    unit = users.objects.create(uid=userid, state='no')#10
                     unit.save()
                 if isinstance(event.message, TextMessage):
                     mtext = event.message.text
@@ -47,12 +48,9 @@ def callback(request):
                                  "你好","hi","hello","."]:
                         func63button.sendButton(event)
                         
-                    elif mtext[:3] == '###' and len(mtext) > 3:
-                        func75liff.manageForm(event, mtext)
-                        
                     elif mtext == '本期':
                         func10login.showCurrent(event)
-
+                        
                     elif mtext == '前期':
                         func10login.showOld(event)
                         
@@ -61,25 +59,26 @@ def callback(request):
     
                     elif len(mtext) == 5 and mtext.isdigit():
                         func10login.show5digit(event, mtext, userid)
-                        
-                    elif mtext == '@英文' or mtext == '@英語':
-                        func11translate.setLang(event, 'en', sound, userid)
-                        
-                    elif mtext == '@日文' or mtext == '@日語':
-                        func11translate.setLang(event, 'ja', sound, userid)
-                        
-                    elif mtext == '@其他' or mtext == '@其它':
-                        func11translate.setElselang(event)
-                        
+
                     elif mtext[:3] == 'ttt' and len(mtext) > 3:
                         mtext = mtext[3:]
                         func11translate.sendTranslate(event, lang, sound, mtext)
+                        
+                    elif mtext == '@取消':
+                        func12liff.sendCancel(event, userid)
+                        
+                    elif mtext[:3] == '###' and len(mtext) > 3:  #處理LIFF傳回的FORM資料
+                        func12liff.manageForm(event, mtext, userid)
+                        
+                    elif mtext[:9] == 'soowiiSay' and len(mtext) > 9:  #推播給所有顧客
+                        func12liff.pushMessage(event, mtext)
                         
                     else:  #一般性輸入
                         func9LUIS.sendLUIS(event, mtext, userid)
                         
             if isinstance(event, PostbackEvent):  #PostbackTemplateAction觸發此事件
                 userid, lang, sound = readData(event)
+                #第一種id取得法
                 backdata = dict(parse_qsl(event.postback.data))  #取得Postback的data資料
                 if backdata.get('action') == 'sellDate':
                     func64dateTime.sendData_sell(event, backdata)
@@ -88,9 +87,15 @@ def callback(request):
                 elif backdata.get('action') == 'func64':
                     func64dateTime.sendDatetime(event, backdata)
                 elif backdata.get('action') == 'func75':
-                    func75liff.sendFlex(event, backdata)
+                    func75liff.sendFlex(event, backdata, userid)
                 elif backdata.get('action') == 'func9':
                     func9LUIS.sendUse(event, backdata)
+                elif backdata.get('action') == 'func11':
+                    func11translate.setElselang(event)
+                elif backdata.get('action') == 'yes':
+                    func12liff.sendYes(event, userid)
+                elif backdata.get('action') == 'no':
+                    func12liff.sendNo(event)
                 else:
                     func11translate.sendData(event, backdata, sound, userid)
                     
@@ -99,7 +104,7 @@ def callback(request):
         return HttpResponseBadRequest()
 
 def readData(event):  #讀取使用者id,語言及發音設定
-    userid = event.source.user_id  #讀取使用者id
+    userid = event.source.user_id  #第二種id取得法
     try:  
         data = varset.get(userid)  #讀取語言及發音設定
         datalist = data.split('/')

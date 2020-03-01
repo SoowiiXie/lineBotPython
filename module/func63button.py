@@ -9,7 +9,7 @@ line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 def sendButton(event):  #按鈕樣版
     try:
         message = TemplateSendMessage(
-            alt_text='按鈕樣板',
+            alt_text='所有功能',
             template=ButtonsTemplate(
                                      #顯示的圖片
                 thumbnail_image_url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
@@ -21,13 +21,20 @@ def sendButton(event):  #按鈕樣版
                         #text='@購買披薩'
                         data='action=func51'  #Postback資料
                     ),
+# =============================================================================
+#                     PostbackTemplateAction(  #執行Postback功能,觸發Postback事件
+#                         label='傳送時間',
+#                         #text='@購買披薩'
+#                         data='action=func64'  #Postback資料
+#                     ),
+# =============================================================================
                     PostbackTemplateAction(  #執行Postback功能,觸發Postback事件
-                        label='傳送時間',
+                        label='ttt翻譯',
                         #text='@購買披薩'
-                        data='action=func64'  #Postback資料
+                        data='action=func11'  #Postback資料
                     ),
                     PostbackTemplateAction(  #執行Postback功能,觸發Postback事件
-                        label='傳送Flex',
+                        label='Flex揪團',
                         #text='@購買披薩'
                         data='action=func75'  #Postback資料
                     ),

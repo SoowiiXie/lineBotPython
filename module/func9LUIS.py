@@ -30,7 +30,10 @@ keys = currencies.keys()
 
 def sendUse(event, backdata):  #使用說明
     try:
-        text1 ='''1.查詢縣或直轄市的天氣：
+        text1 ='''0.若要取消揪團
+請輸入「@取消」
+
+1.查詢縣或直轄市的天氣：
 輸入「XX天氣如何?」
 或輸入類似「XX有下雨嗎?」
 例如「台中有起霧嗎?」
@@ -47,17 +50,14 @@ def sendUse(event, backdata):  #使用說明
 或輸入「本期」或「前期」
 
 4.翻譯(預設翻成英文):
-輸入「@英文」或「@日文」
-或「@其他」設定要翻成的語言
+點「ttt翻譯」並選擇好語言後
 輸入「ttt」在要翻譯的中/英文前面
 例如「tttAngela好聰明!」
 
 若是其他問題
 請直接輸入
 Angela會幫您搜尋資料庫回答'''
-        message = TextSendMessage(
-            text = text1
-        )
+        message = TextSendMessage(alt_text="其他功能說明",text = text1)
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,\

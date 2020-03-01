@@ -40,5 +40,5 @@ def sendQnA(event, mtext, userid):  #QnA
     else:
         result2 = result1[2:]  #移除「A：」
         text1 = result2  
-    message = TextSendMessage(text = text1)
+    message = TextSendMessage(alt_text="從資料庫找的回答",text = text1)
     line_bot_api.reply_message(event.reply_token,message)

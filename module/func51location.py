@@ -8,6 +8,7 @@ line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 def sendPosition(event, backdata):  #傳送位置
     try:
         message = LocationSendMessage(
+            alt_text='位置',
             title='資策會',
             address='320桃園市中壢區中大路300號',
             latitude=24.9664599,  #緯度

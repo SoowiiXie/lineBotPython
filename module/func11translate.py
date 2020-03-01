@@ -12,9 +12,8 @@ line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 def setLang(event, lang, sound, userid):  #設定翻譯語言
     try:
         varset.set(userid, lang + '/' + sound)
-        message = TextSendMessage(
-            text = '語言設定為：' + langtoword(lang)
-        )
+        message = TextSendMessage(alt_text="語言設定",text = '語言設定為：' +\
+                                  langtoword(lang))
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='發生錯誤！'))
@@ -22,9 +21,16 @@ def setLang(event, lang, sound, userid):  #設定翻譯語言
 def setElselang(event):  #設定其他語言
     try:
         message = TextSendMessage(
+            alt_text="其他語言",
             text = '請選擇語言：',
             quick_reply = QuickReply(  #使用快速選單
                 items = [
+                    QuickReplyButton(
+                        action = PostbackAction(label='英文', data='item=en')
+                    ),
+                    QuickReplyButton(
+                        action = PostbackAction(label='日文', data='item=ja')
+                    ),
                     QuickReplyButton(
                         action = PostbackAction(label='韓文', data='item=ko')
                     ),
@@ -53,13 +59,9 @@ def sendTranslate(event, lang, sound, mtext):  #翻譯及朗讀
         stream_url = 'https://google-translate-proxy.herokuapp.com/api/tts?query='\
         + text + '&language=' + lang  #使用google語音API
         message = [  #若要發音需傳送文字及語音,必須使用陣列
-            TextSendMessage(  #傳送翻譯後文字
-                text = translation
-            ),
-            AudioSendMessage(  #傳送語音
-                original_content_url = stream_url,
-                duration=20000  
-            ),
+            TextSendMessage(alt_text="文字翻譯",text = translation),#傳送翻譯後文字
+            AudioSendMessage(alt_text="語音翻譯",\
+                             original_content_url = stream_url,duration=20000),#傳送語音
         ]
         line_bot_api.reply_message(event.reply_token,message)
     except:
