@@ -18,11 +18,9 @@ Flask==1.1.1
 html5lib==1.0.1
 json5==0.8.5
 lxml==4.4.1
-sqlparse==0.3.0
 translate==3.5.0
 six==1.14.0
 astroid==2.3.1
 et-xmlfile==1.0.1
 defusedxml==0.6.0
-requests==2.22.0
 django-variable-settings==0.0.1
