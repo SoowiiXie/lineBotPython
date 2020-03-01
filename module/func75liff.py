@@ -71,7 +71,7 @@ def sendFlex(event, backdata):  #彈性配置
                             ButtonComponent(
                                 style='secondary',
                                 height='sm',
-                                action=URIAction(label='查看網頁',\
+                                action=URIAction(label='網頁Liff',\
                                                  uri="line://app/1653880251-4b2aDNMl")
                             )
                         ]

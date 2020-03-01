@@ -5,14 +5,17 @@ from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextMessage, PostbackEvent
+from PythyAPI.models import users
 from module import func51location
 from module import func63button
 from module import func64dateTime
 from module import func75liff
-# =============================================================================
-# from module import func8QnA
-# =============================================================================
+#from module import func8QnA
 from module import func9LUIS
+from module import func10login
+from module import func11translate
+
+import variable_settings as varset
 from urllib.parse import parse_qsl
 #Postback裡的action使用
 
@@ -33,6 +36,11 @@ def callback(request):
         
         for event in events:
             if isinstance(event, MessageEvent):
+                userid = event.source.user_id
+                userid, lang, sound = readData(event)
+                if not users.objects.filter(uid=userid).exists():
+                    unit = users.objects.create(uid=userid, state='no')
+                    unit.save()
                 if isinstance(event.message, TextMessage):
                     mtext = event.message.text
                     if mtext in ['?','？','選單','menu',"目錄","help",\
@@ -42,11 +50,37 @@ def callback(request):
                     elif mtext[:3] == '###' and len(mtext) > 3:
                         func75liff.manageForm(event, mtext)
                         
+                    elif mtext == '本期':
+                        func10login.showCurrent(event)
+
+                    elif mtext == '前期':
+                        func10login.showOld(event)
+                        
+                    elif len(mtext) == 3 and mtext.isdigit():
+                        func10login.show3digit(event, mtext, userid)
+    
+                    elif len(mtext) == 5 and mtext.isdigit():
+                        func10login.show5digit(event, mtext, userid)
+                        
+                    elif mtext == '@英文' or mtext == '@英語':
+                        func11translate.setLang(event, 'en', sound, userid)
+                        
+                    elif mtext == '@日文' or mtext == '@日語':
+                        func11translate.setLang(event, 'ja', sound, userid)
+                        
+                    elif mtext == '@其他' or mtext == '@其它':
+                        func11translate.setElselang(event)
+                        
+                    elif mtext[:3] == 'ttt' and len(mtext) > 3:
+                        mtext = mtext[3:]
+                        func11translate.sendTranslate(event, lang, sound, mtext)
+                        
                     else:  #一般性輸入
-                        func9LUIS.sendLUIS(event, mtext)
+                        func9LUIS.sendLUIS(event, mtext, userid)
                         
             if isinstance(event, PostbackEvent):  #PostbackTemplateAction觸發此事件
-                backdata = dict(parse_qsl(event.postback.data))  #取得Postback資料
+                userid, lang, sound = readData(event)
+                backdata = dict(parse_qsl(event.postback.data))  #取得Postback的data資料
                 if backdata.get('action') == 'sellDate':
                     func64dateTime.sendData_sell(event, backdata)
                 elif backdata.get('action') == 'func51':
@@ -57,7 +91,22 @@ def callback(request):
                     func75liff.sendFlex(event, backdata)
                 elif backdata.get('action') == 'func9':
                     func9LUIS.sendUse(event, backdata)
+                else:
+                    func11translate.sendData(event, backdata, sound, userid)
                     
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
+
+def readData(event):  #讀取使用者id,語言及發音設定
+    userid = event.source.user_id  #讀取使用者id
+    try:  
+        data = varset.get(userid)  #讀取語言及發音設定
+        datalist = data.split('/')
+        lang = datalist[0]
+        sound = datalist[1]
+    except:  #第一次使用時做使用者初始設定
+        varset.set(userid, 'en/yes')
+        lang = 'en'
+        sound = 'yes'
+    return userid, lang, sound

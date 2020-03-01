@@ -30,19 +30,31 @@ keys = currencies.keys()
 
 def sendUse(event, backdata):  #使用說明
     try:
-        text1 ='''查詢天氣：
+        text1 ='''1.查詢縣或直轄市的天氣：
 輸入「XX天氣如何?」
 或輸入類似「XX有下雨嗎?」
 例如「台中有起霧嗎?」
 
-查詢匯率：
+2.查詢現在台銀的匯率：
 輸入「XX匯率為多少?」
 或輸入類似
 「XX一元換新台幣多少元?」
 例如「日幣等於多少元台幣」
 
-都不是這些問題的話
-會幫您搜尋資料庫回答'''
+3.發票對獎:
+輸入發票末三碼
+例如「168」
+或輸入「本期」或「前期」
+
+4.翻譯(預設翻成英文):
+輸入「@英文」或「@日文」
+或「@其他」設定要翻成的語言
+輸入「ttt」在要翻譯的中/英文前面
+例如「tttAngela好聰明!」
+
+若是其他問題
+請直接輸入
+Angela會幫您搜尋資料庫回答'''
         message = TextSendMessage(
             text = text1
         )
@@ -51,7 +63,7 @@ def sendUse(event, backdata):  #使用說明
         line_bot_api.reply_message(event.reply_token,\
                                    TextSendMessage(text='sendUse發生錯誤！'))
 
-def sendLUIS(event, mtext):  #LUIS
+def sendLUIS(event, mtext, userid):  #LUIS
     try:
         r = requests.get('https://westus.api.cognitive.microsoft.com/luis/v2.0/'+\
                          'apps/bb948c03-e76d-4568-b50b-3c6945e94ebb'+\
@@ -127,7 +139,7 @@ def sendLUIS(event, mtext):  #LUIS
                 line_bot_api.reply_message(event.reply_token,\
                                            TextSendMessage(text='無此幣別匯率資料！'))
         else:  #其他未知輸入
-            func8QnA.sendQnA(event, mtext)
+            func8QnA.sendQnA(event, mtext, userid)
 # =============================================================================
 #             text = '無法了解你的意思，請重新輸入！'
 #             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=text))

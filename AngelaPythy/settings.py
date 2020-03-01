@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PythyAPI', # 新增的 app
+    'variable_settings', # 新增的 pip install django-variable-settings
 ]
 
 MIDDLEWARE = [

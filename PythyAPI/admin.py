@@ -4,5 +4,5 @@ from django.contrib import admin
 from PythyAPI.models import users
 
 class usersAdmin(admin.ModelAdmin):
-    list_display=('uid','question')
+    list_display=('uid','question','state')
 admin.site.register(users, usersAdmin)
