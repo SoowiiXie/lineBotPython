@@ -5,7 +5,7 @@ class users(models.Model):
     uid = models.CharField(max_length=50, null=False)
     question = models.CharField(max_length=250, null=True)#8
     state = models.CharField(max_length=10, null=False)#10
-    #created_time = models.DateTimeField(auto_now=True)#12
+    created_time = models.DateTimeField(auto_now=True)#12
     
     def __str__(self):
         return self.uid
