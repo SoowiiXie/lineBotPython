@@ -15,6 +15,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+import django_heroku
+# Activate Django-Heroku.
+django_heroku.settings(locals())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -25,7 +28,7 @@ LINE_CHANNEL_ACCESS_TOKEN = '8Gx1xdD2LWJowCNnewv3B6LZ/SWiDKKqH4tQ0XQptJvDA1aPmjw
 LINE_CHANNEL_SECRET = '3801764176aa61333d810d30cd8809b4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False#上線改False 2020/03/04
 
 ALLOWED_HOSTS = ['*']
 
