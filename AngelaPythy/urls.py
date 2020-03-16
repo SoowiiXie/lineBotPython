@@ -17,10 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from PythyAPI import views
-from public import index
 
 urlpatterns = [
     url('^callback', views.callback),
-    url('^index', index),
     path('admin/', admin.site.urls),
 ]
