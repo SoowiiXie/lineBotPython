@@ -129,4 +129,4 @@ STATICFILES_DIRS = [  #加入 static 路徑
 ]
 
 # Activate Django-Heroku.
-#django_heroku.settings(locals())
+django_heroku.settings(locals())

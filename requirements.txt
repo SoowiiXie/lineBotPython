@@ -35,3 +35,5 @@ pickleshare==0.7.5
 ptyprocess==0.6.0
 simplegeneric==0.8.1
 traitlets==4.3.3
+whitenoise==5.0.1
+asgiref==3.2.3
