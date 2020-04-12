@@ -75,13 +75,13 @@ def sendLUIS(event, mtext, userid):  #LUIS
         city = ''
         money = ''
         #if result['topScoringIntent']['intent'] == '縣市天氣':
+        mtext = mtext.replace('台', '臺')  #氣象局資料使用「臺」
+        mtext = mtext.replace('中壢', '桃園')
         if mtext in cities or mtext in counties:
         #    for en in result['entities']:
         #        if en['type'] == '地點':  #由LUIS天氣類取得地點
         #            city = en['entity']
         #            break
-            mtext = mtext.replace('台', '臺')  #氣象局資料使用「臺」
-            mtext = mtext.replace('中壢', '桃園')
             city = mtext            
         #elif result['topScoringIntent']['intent'] == '匯率查詢':
         #    for en in result['entities']:
