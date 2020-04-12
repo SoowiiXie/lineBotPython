@@ -65,25 +65,31 @@ Angela會幫您搜尋資料庫回答'''
 
 def sendLUIS(event, mtext, userid):  #LUIS
     try:
-        r = requests.get('https://westus.api.cognitive.microsoft.com/luis/v2.0/'+\
-                         'apps/bb948c03-e76d-4568-b50b-3c6945e94ebb'+\
-                         '?staging=true&verbose=true&timezoneOffset=-480&'+\
-                         'subscription-key=a6961e76af7a4698bf84b79b0ce3c5f7&q='+\
-                         mtext)  #終結點
-        result = r.json()
+        #r = requests.get('https://westus.api.cognitive.microsoft.com/luis/v2.0/'+\
+        #                 'apps/bb948c03-e76d-4568-b50b-3c6945e94ebb'+\
+        #                 '?staging=true&verbose=true&timezoneOffset=-480&'+\
+        #                 'subscription-key=a6961e76af7a4698bf84b79b0ce3c5f7&q='+\
+        #                 mtext)  #終結點
+        #result = r.json()
 
         city = ''
         money = ''
-        if result['topScoringIntent']['intent'] == '縣市天氣':
-            for en in result['entities']:
-                if en['type'] == '地點':  #由LUIS天氣類取得地點
-                    city = en['entity']
-                    break
-        elif result['topScoringIntent']['intent'] == '匯率查詢':
-            for en in result['entities']:
-                if en['type'] == '幣別':  #由LUIS匯率類取得幣別
-                    money = en['entity']
-                    break
+        #if result['topScoringIntent']['intent'] == '縣市天氣':
+        if mtext in cities or mtext in counties:
+        #    for en in result['entities']:
+        #        if en['type'] == '地點':  #由LUIS天氣類取得地點
+        #            city = en['entity']
+        #            break
+            mtext = mtext.replace('台', '臺')  #氣象局資料使用「臺」
+            mtext = mtext.replace('中壢', '桃園')
+            city = mtext            
+        #elif result['topScoringIntent']['intent'] == '匯率查詢':
+        #    for en in result['entities']:
+        #        if en['type'] == '幣別':  #由LUIS匯率類取得幣別
+        #            money = en['entity']
+        #            break
+        elif mtext in keys:
+            money = mtext
         if not city == '':  #天氣類地點存在
             flagcity = False  #檢查是否為縣市名稱
             city = city.replace('台', '臺')  #氣象局資料使用「臺」
