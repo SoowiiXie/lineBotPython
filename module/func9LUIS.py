@@ -74,11 +74,7 @@ def sendUse(event, backdata):  #使用說明
 4.翻譯(預設翻成英文):
 點「ttt翻譯」並選擇好語言後
 輸入「ttt」在要翻譯的中/英文前面
-例如「tttAngela好聰明!」
-
-若是其他問題
-請直接輸入
-Angela會幫您搜尋資料庫回答'''
+例如「tttAngela好聰明!」'''
         message = TextSendMessage(alt_text="其他功能說明",text = text1)
         line_bot_api.reply_message(event.reply_token,message)
     except:
