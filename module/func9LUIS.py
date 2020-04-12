@@ -145,7 +145,9 @@ def sendLUIS(event, mtext, userid):  #LUIS
                 line_bot_api.reply_message(event.reply_token,\
                                            TextSendMessage(text='無此幣別匯率資料！'))
         else:  #其他未知輸入
-            func8QnA.sendQnA(event, mtext, userid)
+            #func8QnA.sendQnA(event, mtext, userid)
+            line_bot_api.reply_message(event.reply_token,\
+                                  TextSendMessage(text='目前沒這功能喔'))
 # =============================================================================
 #             text = '無法了解你的意思，請重新輸入！'
 #             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=text))
