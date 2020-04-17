@@ -6,6 +6,15 @@ ConfirmTemplate,PostbackTemplateAction
 
 from PythyAPI.models import teamUp, users
 
+#import peewee #20200418
+#db = peewee.PostgresqlDatabase('daqfqhdshludoq',
+#                          user='tlnlkxrtnbepdl',
+#                          password='2a372ee7bedb7e93309cb56336a42fe8824885adb6a6509d27d86cdba914c5d3',
+#                          host='ec2-52-86-73-86.compute-1.amazonaws.com',
+#                          port=5432)
+#
+#db.connect()
+
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
 def sendCancel(event, user_id):  #取消訂房
