@@ -109,7 +109,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             
             print(timein)                                       #2020-04-18T13:02
             date_time_obj = datetime.datetime.strptime(timein, '%Y-%m-%dT%H:%M')
-            participant = GROUPER.create(name=user_id, LOC_NO=place,\
+            participant = GROUPER.create(MB_ID=user_id, LOC_NO=place,\
                                          GRP_PERSONMAX=int(amount),\
                                          GRP_START=date_time_obj)
             
@@ -134,6 +134,8 @@ def sendYes(event, user_id):  #處理取消訂房
     try:
         datadel = teamUp.objects.get(bid=user_id)  #從資料庫移除資料記錄
         datadel.delete()
+        query = GROUPER.delete().where(GROUPER.MB_ID==user_id)
+        query.execute()
         message = TextSendMessage(
             text = "您的揪團已成功刪除。\n謝謝！"
         )

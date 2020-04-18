@@ -67,7 +67,6 @@ class GRP_DETAIL(peewee.Model):
 #creat_table()
 #db.create_tables([GROUPER, GRP_DETAIL])
 #db.drop_tables([GROUPER, GRP_DETAIL])
-
 print("DAO-----------------------------------------")
 print("insert-1------------------------------------")
 from datetime import date
@@ -112,6 +111,7 @@ print(datetime.datetime(1957, int('7'), 7, 14, 25))
 print()
 print("#get all------------------------------------")
 print(type(Person.select()),'#不是真的python的list') 
+print(type(GROUPER.select()),'#不是真的python的list')      
 
 print()
 print("#delete-------------------------------------")
@@ -127,6 +127,8 @@ print()
 print("#使用select()，選取全部資料，再用迴圈列出------")
 for person in Person.select():
     print(person.id, person.name, person.birthday)
+for GROUPER in GROUPER.select():
+    print(GROUPER.LOC_NO)
 
 print()
 print("#使用更多SQL語句 ----------------------------")
