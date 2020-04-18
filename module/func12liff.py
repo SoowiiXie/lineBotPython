@@ -110,7 +110,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             print(timein)                                       #2020-04-18T13:02
             date_time_obj = datetime.datetime.strptime(timein, '%Y-%m-%dT%H:%M')
             participant = GROUPER.create(name=user_id, LOC_NO=place,\
-                                         GRP_PERSONMAX=amount,GRP_START=date_time_obj)
+                                         GRP_PERSONMAX=amount,GRP_START=timein)
             
             unit.save()
             text1 = "您的揪團資料如下："
