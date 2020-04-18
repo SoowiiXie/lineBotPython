@@ -125,6 +125,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             message = TextSendMessage(
                 text = '您目前已有揪團，不能再揪團。'
             )
+        db.close()
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,\
@@ -139,6 +140,7 @@ def sendYes(event, user_id):  #處理取消訂房
         message = TextSendMessage(
             text = "您的揪團已成功刪除。\n謝謝！"
         )
+        db.close()
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,\
