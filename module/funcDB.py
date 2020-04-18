@@ -107,6 +107,7 @@ print(grandma.name, grandma.birthday)
 aDateString='2020-04-18T12:49'
 print(aDateString[0:4],aDateString[5:7],aDateString[8:10])
 print(datetime.datetime.strptime(aDateString, '%Y-%m-%dT%H:%M'))
+print(datetime.datetime(1957, int('7'), 7, 14, 25))
 
 print()
 print("#get all------------------------------------")
