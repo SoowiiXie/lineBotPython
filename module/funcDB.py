@@ -136,5 +136,5 @@ for pet in query:
 
 print()
 print("#關閉連線------------------------------------")
-if db:
-    db.close()
+#if db:
+#    db.close()

@@ -8,8 +8,8 @@ from PythyAPI.models import teamUp, users
 
 import peewee #20200418
 from datetime import date
-import datetime #20200418
-import funcDB
+from datetime import datetime
+from funcDB import GROUPER, GRP_DETAIL
 
 db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           user='tlnlkxrtnbepdl',
@@ -74,7 +74,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             
             print(timein)                                       #2020-04-18T13:02
             date_time_obj = datetime.datetime.strptime(timein, '%Y-%m-%dT%H:%M')
-            participant = funcDB.GROUPER.create(name=user_id, LOC_NO=place,\
+            participant = GROUPER.create(name=user_id, LOC_NO=place,\
                                                 GRP_PERSONMAX=int(amount),\
                                                 GRP_START=date_time_obj)
             
