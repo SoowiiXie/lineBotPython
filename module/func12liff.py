@@ -125,7 +125,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,\
-                                   TextSendMessage(text='manageForm發生錯誤！'))
+                                   TextSendMessage(text=timein,'manageForm發生錯誤！'))
 
 def sendYes(event, user_id):  #處理取消訂房
     try:
