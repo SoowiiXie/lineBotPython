@@ -68,6 +68,8 @@ print()
 print("#get one by value---------------------------")
 grandma = Person.get(Person.name == 'Grandma L.')
 print(grandma.name, grandma.birthday)
+aDateString='2020-04-18T12:49'
+print(aDateString[0:4],aDateString[5:7],aDateString[8:10])
 
 print()
 print("#get all------------------------------------")
