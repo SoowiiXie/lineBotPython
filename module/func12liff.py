@@ -6,14 +6,52 @@ ConfirmTemplate,PostbackTemplateAction
 
 from PythyAPI.models import teamUp, users
 
-#import peewee #20200418
-#db = peewee.PostgresqlDatabase('daqfqhdshludoq',
-#                          user='tlnlkxrtnbepdl',
-#                          password='2a372ee7bedb7e93309cb56336a42fe8824885adb6a6509d27d86cdba914c5d3',
-#                          host='ec2-52-86-73-86.compute-1.amazonaws.com',
-#                          port=5432)
-#
-#db.connect()
+import peewee #20200418
+from datetime import date #20200418
+
+db = peewee.PostgresqlDatabase('daqfqhdshludoq',
+                          user='tlnlkxrtnbepdl',
+                          password='2a372ee7bedb7e93309cb56336a42fe8824885adb6a6509d27d86cdba914c5d3',
+                          host='ec2-52-86-73-86.compute-1.amazonaws.com',
+                          port=5432)
+
+db.connect() #20200418
+
+print("VO---------------------------------#20200418")
+#table
+class GROUPER(peewee.Model):
+    #col
+    GRP_NO = peewee.CharField()
+    MB_ID = peewee.CharField()
+    LOC_NO = peewee.CharField()
+    GRP_APPLYSTART = peewee.DateField()
+    GRP_APPLYEND = peewee.DateField()
+    GRP_START = peewee.DateField()
+    GRP_END = peewee.DateField()
+    GRP_NAME = peewee.CharField()
+    GRP_CONTENT = peewee.CharField()
+    GRP_PERSONMAX = peewee.IntegerField
+    GRP_PERSONMIN = peewee.IntegerField
+    GRP_PERSONCOUNT = peewee.IntegerField
+    GRP_STATUS = peewee.IntegerField
+    GRP_FOLLOW = peewee.IntegerField
+    
+    #db
+    class Meta:
+        database = db
+
+#table
+class GRP_DETAIL(peewee.Model):
+    #col
+    participants = peewee.ForeignKeyField(GROUPER, backref='participatingGroups')
+    GRP_NO = peewee.CharField()
+    MB_ID = peewee.CharField()
+    GRP_REGISTER = peewee.IntegerField
+
+    #db
+    class Meta:
+        database = db
+
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
@@ -67,6 +105,11 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             timein = flist[2]
             unit = teamUp.objects.create(bid=user_id, place=place, amount=amount,\
                                           timein=timein)  #寫入資料庫
+            
+            print(timein)
+            participant = GROUPER.create(name=user_id, LOC_NO=place,\
+                                         GRP_PERSONMAX=amount,GRP_START=date(timein))
+            
             unit.save()
             text1 = "您的揪團資料如下："
             text1 += "\n場地：" + place
