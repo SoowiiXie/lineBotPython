@@ -12,8 +12,8 @@ print("VO------------------------------------------")
 #table
 class Person(peewee.Model):
     #col
-    name = peewee.CharField()
-    birthday = peewee.DateField()
+    name = peewee.CharField(null=True)
+    birthday = peewee.DateField(null=True)
     
     #db
     class Meta:
@@ -23,8 +23,8 @@ class Person(peewee.Model):
 class Pet(peewee.Model):
     #col
     owner = peewee.ForeignKeyField(Person, backref='pets')
-    name = peewee.CharField()
-    animal_type = peewee.CharField()
+    name = peewee.CharField(null=True)
+    animal_type = peewee.CharField(null=True)
     
     #db
     class Meta:
@@ -33,20 +33,20 @@ class Pet(peewee.Model):
 #table
 class GROUPER(peewee.Model):
     #col
-    GRP_NO = peewee.CharField()
-    MB_ID = peewee.CharField()
-    LOC_NO = peewee.CharField()
-    GRP_APPLYSTART = peewee.DateTimeField()
-    GRP_APPLYEND = peewee.DateTimeField()
-    GRP_START = peewee.DateTimeField()
-    GRP_END = peewee.DateTimeField()
-    GRP_NAME = peewee.CharField()
-    GRP_CONTENT = peewee.CharField()
-    GRP_PERSONMAX = peewee.IntegerField
-    GRP_PERSONMIN = peewee.IntegerField
-    GRP_PERSONCOUNT = peewee.IntegerField
-    GRP_STATUS = peewee.IntegerField
-    GRP_FOLLOW = peewee.IntegerField
+    GRP_NO = peewee.CharField(null=True)
+    MB_ID = peewee.CharField(null=True)
+    LOC_NO = peewee.CharField(null=True)
+    GRP_APPLYSTART = peewee.DateTimeField(null=True)
+    GRP_APPLYEND = peewee.DateTimeField(null=True)
+    GRP_START = peewee.DateTimeField(null=True)
+    GRP_END = peewee.DateTimeField(null=True)
+    GRP_NAME = peewee.CharField(null=True)
+    GRP_CONTENT = peewee.CharField(null=True)
+    GRP_PERSONMAX = peewee.IntegerField(null=True)
+    GRP_PERSONMIN = peewee.IntegerField(null=True)
+    GRP_PERSONCOUNT = peewee.IntegerField(null=True)
+    GRP_STATUS = peewee.IntegerField(null=True)
+    GRP_FOLLOW = peewee.IntegerField(null=True)
     
     #db
     class Meta:
@@ -65,7 +65,7 @@ class GRP_DETAIL(peewee.Model):
         database = db
         
 #creat_table()
-db.create_tables([GROUPER, GRP_DETAIL])
+#db.create_tables([GROUPER, GRP_DETAIL])
 #db.drop_tables([GROUPER, GRP_DETAIL])
 
 print("DAO-----------------------------------------")
