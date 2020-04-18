@@ -7,7 +7,7 @@ ConfirmTemplate,PostbackTemplateAction
 from PythyAPI.models import teamUp, users
 
 import peewee #20200418
-from datetime import date #20200418
+import datetime #20200418
 
 db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           user='tlnlkxrtnbepdl',
@@ -106,10 +106,10 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             unit = teamUp.objects.create(bid=user_id, place=place, amount=amount,\
                                           timein=timein)  #寫入資料庫
             
-            print(timein)
+            print(timein)                                       #2020-04-18T13:02
+            date_time_obj = datetime.datetime.strptime(timein, '%Y-%m-%dT%H:%M')
             participant = GROUPER.create(name=user_id, LOC_NO=place,\
-                                         GRP_PERSONMAX=amount,GRP_START=\
-                                         date(timein[0:4],timein[5:7],timein[8:10]))
+                                         GRP_PERSONMAX=amount,GRP_START=date_time_obj)
             
             unit.save()
             text1 = "您的揪團資料如下："

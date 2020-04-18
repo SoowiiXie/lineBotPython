@@ -42,7 +42,7 @@ from datetime import date
 #
 print()
 print("insert-2------------------------------------")
-grandma = Person.create(name='Grandma', birthday=date(1935, 3, 1))
+grandma = Person.create(name='Grandma', birthday=date(1935, 3, 1, 13, 27))
 #herb = Person.create(name='Herb', birthday=date(1950, 5, 5))
 peopleDel = Person.create(name='PeopleDel', birthday=date(1950, 5, 5))
 peopleDel2 = Person.create(name='PeopleDel', birthday=date(1957, 7, 7))
