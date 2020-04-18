@@ -7,6 +7,7 @@ ConfirmTemplate,PostbackTemplateAction
 from PythyAPI.models import teamUp, users
 
 import peewee #20200418
+from datetime import date
 import datetime #20200418
 
 db = peewee.PostgresqlDatabase('daqfqhdshludoq',

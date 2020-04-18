@@ -30,19 +30,54 @@ class Pet(peewee.Model):
     class Meta:
         database = db
 
-##creat_table()
-#db.create_tables([Person, Pet])
-#
+#table
+class GROUPER(peewee.Model):
+    #col
+    GRP_NO = peewee.CharField()
+    MB_ID = peewee.CharField()
+    LOC_NO = peewee.CharField()
+    GRP_APPLYSTART = peewee.DateField()
+    GRP_APPLYEND = peewee.DateField()
+    GRP_START = peewee.DateField()
+    GRP_END = peewee.DateField()
+    GRP_NAME = peewee.CharField()
+    GRP_CONTENT = peewee.CharField()
+    GRP_PERSONMAX = peewee.IntegerField
+    GRP_PERSONMIN = peewee.IntegerField
+    GRP_PERSONCOUNT = peewee.IntegerField
+    GRP_STATUS = peewee.IntegerField
+    GRP_FOLLOW = peewee.IntegerField
+    
+    #db
+    class Meta:
+        database = db
+
+#table
+class GRP_DETAIL(peewee.Model):
+    #col
+    participants = peewee.ForeignKeyField(GROUPER, backref='participatingGroups')
+    GRP_NO = peewee.CharField()
+    MB_ID = peewee.CharField()
+    GRP_REGISTER = peewee.IntegerField
+
+    #db
+    class Meta:
+        database = db
+        
+#creat_table()
+#db.create_tables([GROUPER, GRP_DETAIL])
+
 print("DAO-----------------------------------------")
 print("insert-1------------------------------------")
 from datetime import date
+import datetime
 #
 #uncle_bob = Person(name='Bob', birthday=date(1960, 1, 15))
 #uncle_bob.save() #return:1
 #
 print()
 print("insert-2------------------------------------")
-grandma = Person.create(name='Grandma', birthday=date(1935, 3, 1, 13, 27))
+grandma = Person.create(name='Grandma', birthday=date(1935, 3, 1))
 #herb = Person.create(name='Herb', birthday=date(1950, 5, 5))
 peopleDel = Person.create(name='PeopleDel', birthday=date(1950, 5, 5))
 peopleDel2 = Person.create(name='PeopleDel', birthday=date(1957, 7, 7))
@@ -70,6 +105,7 @@ grandma = Person.get(Person.name == 'Grandma L.')
 print(grandma.name, grandma.birthday)
 aDateString='2020-04-18T12:49'
 print(aDateString[0:4],aDateString[5:7],aDateString[8:10])
+print(datetime.datetime.strptime(aDateString, '%Y-%m-%dT%H:%M'))
 
 print()
 print("#get all------------------------------------")
