@@ -9,6 +9,7 @@ from PythyAPI.models import teamUp, users
 import peewee #20200418
 from datetime import date
 import datetime #20200418
+import funcDB
 
 db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           user='tlnlkxrtnbepdl',
@@ -17,42 +18,6 @@ db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           port=5432)
 
 db.connect() #20200418
-
-print("VO---------------------------------#20200418")
-#table
-class GROUPER(peewee.Model):
-    #col
-    GRP_NO = peewee.CharField()
-    MB_ID = peewee.CharField()
-    LOC_NO = peewee.CharField()
-    GRP_APPLYSTART = peewee.DateTimeField()
-    GRP_APPLYEND = peewee.DateTimeField()
-    GRP_START = peewee.DateTimeField()
-    GRP_END = peewee.DateTimeField()
-    GRP_NAME = peewee.CharField()
-    GRP_CONTENT = peewee.CharField()
-    GRP_PERSONMAX = peewee.IntegerField
-    GRP_PERSONMIN = peewee.IntegerField
-    GRP_PERSONCOUNT = peewee.IntegerField
-    GRP_STATUS = peewee.IntegerField
-    GRP_FOLLOW = peewee.IntegerField
-    
-    #db
-    class Meta:
-        database = db
-
-#table
-class GRP_DETAIL(peewee.Model):
-    #col
-    participants = peewee.ForeignKeyField(GROUPER, backref='participatingGroups')
-    GRP_NO = peewee.CharField()
-    MB_ID = peewee.CharField()
-    GRP_REGISTER = peewee.IntegerField
-
-    #db
-    class Meta:
-        database = db
-
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
@@ -109,9 +74,9 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             
             print(timein)                                       #2020-04-18T13:02
             date_time_obj = datetime.datetime.strptime(timein, '%Y-%m-%dT%H:%M')
-            participant = GROUPER.create(name=user_id, LOC_NO=place,\
-                                         GRP_PERSONMAX=int(amount),\
-                                         GRP_START=date_time_obj)
+            participant = funcDB.GROUPER.create(name=user_id, LOC_NO=place,\
+                                                GRP_PERSONMAX=int(amount),\
+                                                GRP_START=date_time_obj)
             
             unit.save()
             text1 = "您的揪團資料如下："
