@@ -108,7 +108,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
             
             print(timein)
             participant = GROUPER.create(name=user_id, LOC_NO=place,\
-                                         GRP_PERSONMAX=amount,GRP_START=timein)
+                                         GRP_PERSONMAX=amount,GRP_START=date(timein))
             
             unit.save()
             text1 = "您的揪團資料如下："
@@ -125,7 +125,7 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
         line_bot_api.reply_message(event.reply_token,message)
     except:
         line_bot_api.reply_message(event.reply_token,\
-                                   TextSendMessage(text=timein,'manageForm發生錯誤！'))
+                                   TextSendMessage(text=timein))
 
 def sendYes(event, user_id):  #處理取消訂房
     try:
