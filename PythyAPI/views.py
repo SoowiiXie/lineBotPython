@@ -38,7 +38,8 @@ def callback(request):
         for event in events:
             if isinstance(event, MessageEvent):
                 userid = event.source.user_id
-                userPictureUrl = event.source.pictureUrl
+                line_bot_api.get_profile(userid)
+                
                 userid, lang, sound = readData(event)
                 if not users.objects.filter(uid=userid).exists():
                     unit = users.objects.create(uid=userid, state='no')#10
@@ -78,7 +79,7 @@ def callback(request):
                         func9LUIS.sendLUIS(event, mtext, userid)
                         
             if isinstance(event, PostbackEvent):  #PostbackTemplateAction觸發此事件
-                userPictureUrl, userid, lang, sound = readData(event)
+                userid, lang, sound = readData(event)
                 #第一種id取得法
                 backdata = dict(parse_qsl(event.postback.data))  #取得Postback的data資料
                 if backdata.get('action') == 'sellDate':
@@ -88,7 +89,7 @@ def callback(request):
                 elif backdata.get('action') == 'func64':
                     func64dateTime.sendDatetime(event, backdata)
                 elif backdata.get('action') == 'func75':
-                    func75liff.sendFlex(event, backdata, userid, userPictureUrl)
+                    func75liff.sendFlex(event, backdata, userid)
                 elif backdata.get('action') == 'func9':
                     func9LUIS.sendUse(event, backdata)
                 elif backdata.get('action') == 'func11':
