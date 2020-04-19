@@ -6,7 +6,7 @@ from PythyAPI.models import teamUp
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
-def sendFlex(event, backdata, user_id):  #彈性配置
+def sendFlex(event, backdata, user_id, userPictureUrl):  #彈性配置
     try:
         if not (teamUp.objects.filter(bid=user_id).exists()):  #沒有訂房記錄
             bubble = BubbleContainer(
@@ -14,11 +14,13 @@ def sendFlex(event, backdata, user_id):  #彈性配置
                 header=BoxComponent(  #標題
                     layout='vertical',
                     contents=[
-                        TextComponent(text='可以跑就是Runnable', weight='bold', size='xl'),
+                        #TextComponent(text='可以跑就是Runnable', weight='bold', size='xl'),
+                        TextComponent(text=userPictureUrl, weight='bold', size='xl'),
                     ]
                 ),
                 hero=ImageComponent(  #主圖片
-                    url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
+                    #url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
+                    url=userPictureUrl,
                     size='full',
                     aspect_ratio='792:555',  #長寬比例
                     aspect_mode='cover',

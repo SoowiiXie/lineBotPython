@@ -42,6 +42,6 @@ class GRP_DETAIL(peewee.Model):
     class Meta:
         database = db
         
-#creat_table()
+##creat_table()
 #db.create_tables([GROUPER, GRP_DETAIL])
 #db.drop_tables([GROUPER, GRP_DETAIL])
