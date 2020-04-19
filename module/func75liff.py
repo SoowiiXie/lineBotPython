@@ -3,14 +3,10 @@ from django.conf import settings
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, BubbleContainer, ImageComponent, BoxComponent, TextComponent, IconComponent, ButtonComponent, SeparatorComponent, FlexSendMessage, URIAction
 from PythyAPI.models import teamUp
-import json
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
-def sendFlex(event, backdata, user_id, user_profile_json):  #彈性配置
-    # parse user_profile_json:
-    user_profile_loads = json.loads(user_profile_json)
-    
+def sendFlex(event, backdata, user_id):  #彈性配置
     try:
         if not (teamUp.objects.filter(bid=user_id).exists()):  #沒有訂房記錄
             bubble = BubbleContainer(
@@ -18,12 +14,11 @@ def sendFlex(event, backdata, user_id, user_profile_json):  #彈性配置
                 header=BoxComponent(  #標題
                     layout='vertical',
                     contents=[
-                        TextComponent(text='可以跑就是Runnable', weight='bold', size='xl'),
+                        TextComponent(text='可以跑就是Runn-able', weight='bold', size='xl'),
                     ]
                 ),
                 hero=ImageComponent(  #主圖片
-                    #url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
-                    url=user_profile_loads["picture_url"],
+                    url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
                     size='full',
                     aspect_ratio='792:555',  #長寬比例
                     aspect_mode='cover',
@@ -31,18 +26,20 @@ def sendFlex(event, backdata, user_id, user_profile_json):  #彈性配置
                 body=BoxComponent(  #主要內容
                     layout='vertical',
                     contents=[
-                        TextComponent(text='評價', size='md'),
+                        TextComponent(text='按讚、留言，加meToo', size='md'),
                         BoxComponent(
                             layout='baseline',  #水平排列
                             margin='md',
                             contents=[
+                                TextComponent(text='按', size='md', color='#999999',flex=0),
                                 IconComponent(size='lg',\
-                                              url='https://i.imgur.com/GsWCrIx.png'),
-                                TextComponent(text='106   ', size='sm', color='#999999',\
-                                              flex=0),
+                                              url='https://upload.cc/i1/2020/04/19/NLBGdU.png'),
+                                TextComponent(text='、 ', size='md', color='#999999',flex=0),
+                                IconComponent(size='md',\
+                                              url='https://upload.cc/i1/2020/04/19/D7mc9a.png'),
+                                TextComponent(text='  ，加me ', size='md', color='#999999', flex=0),
                                 IconComponent(size='lg',\
-                                              url='https://i.imgur.com/sJPhtB3.png'),
-                                TextComponent(text='5', size='sm', color='#999999', flex=0),
+                                              url='https://upload.cc/i1/2020/04/19/DlaV4C.png'),
                             ]
                         ),
                         BoxComponent(
@@ -53,7 +50,7 @@ def sendFlex(event, backdata, user_id, user_profile_json):  #彈性配置
                                     layout='baseline',
                                     contents=[
                                         TextComponent(text='營業地址:', color='#aaaaaa', size='sm', flex=2),
-                                        TextComponent(text=' 320桃園市中壢區中大路300號', color='#666666', size='sm', flex=5)
+                                        TextComponent(text='320桃園市中壢區中大路300號', color='#666666', size='sm', flex=5)
                                     ],
                                 ),
                                 SeparatorComponent(color='#0000FF'),
@@ -71,12 +68,24 @@ def sendFlex(event, backdata, user_id, user_profile_json):  #彈性配置
                             margin='xxl',
                             contents=[
                                 ButtonComponent(
-                                    style='primary',
+                                    style='link',
                                     height='sm',
-                                    action=URIAction(label='電話聯絡', uri='tel:0932276826'),
-                                ),
+                                    action=URIAction(label='點我查看商城訂單目前狀態',\
+                                                     uri="line://app/1653880251-4b2aDNMl"),                                    
+                                )
+                            ]
+                        ),
+                        BoxComponent(  
+                            layout='horizontal',
+                            margin='xxl',
+                            contents=[
                                 ButtonComponent(
                                     style='secondary',
+                                    height='sm',
+                                    action=URIAction(label='電話', uri='tel:034257387'),
+                                ),
+                                ButtonComponent(
+                                    style='primary',
                                     height='sm',
                                     action=URIAction(label='揪團',\
                                                      uri="line://app/1653880251-4b2aDNMl")

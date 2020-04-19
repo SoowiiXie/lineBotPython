@@ -52,7 +52,7 @@ def callback(request):
                     mtext = event.message.text
                     if mtext in ['?','？','選單','menu',"目錄","help",\
                                  "你好","hi","hello","."]:
-                        func63button.sendButton(event)
+                        func63button.sendButton(event, user_profile_json)
                         
                     elif mtext == '本期':
                         func10login.showCurrent(event)
@@ -83,7 +83,7 @@ def callback(request):
                         func9LUIS.sendLUIS(event, mtext, userid)
                         
             if isinstance(event, PostbackEvent):  #PostbackTemplateAction觸發此事件
-                user_profile_json, userid, lang, sound = readData(event)
+                userid, lang, sound = readData(event)
                 #第一種id取得法
                 backdata = dict(parse_qsl(event.postback.data))  #取得Postback的data資料
                 if backdata.get('action') == 'sellDate':
@@ -93,7 +93,7 @@ def callback(request):
                 elif backdata.get('action') == 'func64':
                     func64dateTime.sendDatetime(event, backdata)
                 elif backdata.get('action') == 'func75':
-                    func75liff.sendFlex(event, backdata, userid, user_profile_json)
+                    func75liff.sendFlex(event, backdata, userid)
                 elif backdata.get('action') == 'func9':
                     func9LUIS.sendUse(event, backdata)
                 elif backdata.get('action') == 'func11':
