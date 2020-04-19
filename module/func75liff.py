@@ -3,10 +3,14 @@ from django.conf import settings
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, BubbleContainer, ImageComponent, BoxComponent, TextComponent, IconComponent, ButtonComponent, SeparatorComponent, FlexSendMessage, URIAction
 from PythyAPI.models import teamUp
+import json
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
-def sendFlex(event, backdata, user_id):  #彈性配置
+def sendFlex(event, backdata, user_id, user_profile_json):  #彈性配置
+    # parse user_profile_json:
+    user_profile_loads = json.loads(user_profile_json)
+    
     try:
         if not (teamUp.objects.filter(bid=user_id).exists()):  #沒有訂房記錄
             bubble = BubbleContainer(
@@ -18,7 +22,8 @@ def sendFlex(event, backdata, user_id):  #彈性配置
                     ]
                 ),
                 hero=ImageComponent(  #主圖片
-                    url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
+                    #url='https://upload.cc/i1/2020/02/23/CrfWMt.png',
+                    url=user_profile_loads["picture_url"],
                     size='full',
                     aspect_ratio='792:555',  #長寬比例
                     aspect_mode='cover',

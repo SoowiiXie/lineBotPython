@@ -18,7 +18,8 @@ from module import func12liff
 
 import variable_settings as varset
 from urllib.parse import parse_qsl
-#Postback裡的action使用
+# 載入json處理套件
+import json
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
@@ -38,7 +39,10 @@ def callback(request):
         for event in events:
             if isinstance(event, MessageEvent):
                 userid = event.source.user_id
-                line_bot_api.get_profile(userid)
+                # 取出消息內User的資料
+                user_profile = line_bot_api.get_profile(userid)
+                # 將用戶資訊存在檔案內
+                user_profile_json = json.dumps(vars(user_profile),sort_keys=True)
                 
                 userid, lang, sound = readData(event)
                 if not users.objects.filter(uid=userid).exists():
@@ -79,7 +83,7 @@ def callback(request):
                         func9LUIS.sendLUIS(event, mtext, userid)
                         
             if isinstance(event, PostbackEvent):  #PostbackTemplateAction觸發此事件
-                userid, lang, sound = readData(event)
+                user_profile_json, userid, lang, sound = readData(event)
                 #第一種id取得法
                 backdata = dict(parse_qsl(event.postback.data))  #取得Postback的data資料
                 if backdata.get('action') == 'sellDate':
@@ -89,7 +93,7 @@ def callback(request):
                 elif backdata.get('action') == 'func64':
                     func64dateTime.sendDatetime(event, backdata)
                 elif backdata.get('action') == 'func75':
-                    func75liff.sendFlex(event, backdata, userid)
+                    func75liff.sendFlex(event, backdata, userid, user_profile_json)
                 elif backdata.get('action') == 'func9':
                     func9LUIS.sendUse(event, backdata)
                 elif backdata.get('action') == 'func11':
