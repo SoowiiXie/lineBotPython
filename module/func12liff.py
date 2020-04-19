@@ -4,7 +4,7 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage,TemplateSendMessage,\
 ConfirmTemplate,PostbackTemplateAction
 
-from PythyAPI.models import teamUp, users
+from PythyAPI.models import *
 
 import peewee #20200418
 from datetime import date
