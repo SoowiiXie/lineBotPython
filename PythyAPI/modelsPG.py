@@ -6,7 +6,7 @@ db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           host='ec2-52-86-73-86.compute-1.amazonaws.com',
                           port=5432)
 
-db.connect()
+#db.connect()
 
 #table
 class GROUPER(peewee.Model):
