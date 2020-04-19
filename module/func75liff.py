@@ -71,7 +71,7 @@ def sendFlex(event, backdata, user_id):  #彈性配置
                                     style='link',
                                     height='sm',
                                     action=URIAction(label='點我查看商城訂單目前狀態',\
-                                                     uri="line://app/1653880251-4b2aDNMl"),                                    
+                                                     uri="https://liff.line.me/1653880251-yZpK05QY"),                                    
                                 )
                             ]
                         ),

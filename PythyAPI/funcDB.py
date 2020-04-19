@@ -1,4 +1,5 @@
 import peewee #20200418
+from modelsPG import GROUPER, ORDERS
 
 db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           user='tlnlkxrtnbepdl',
@@ -93,16 +94,33 @@ print()
 print("#使用select()，選取全部資料，再用迴圈列出------")
 for person in Person.select():
     print(person.id, person.name, person.birthday)
-for GROUPER in GROUPER.select():
-    print(GROUPER.LOC_NO)
-
+for group in GROUPER.select():
+    print(group.LOC_NO)
+for order in ORDERS.select():
+    OS=order.OD_STATUS
+    if(OS==1):OSinCH="發貨中"
+    if(OS==2):OSinCH="已發貨"
+    if(OS==3):OSinCH="已到達"
+    if(OS==4):OSinCH="已取貨"
+    if(OS==5):OSinCH="退貨"
+    print("MB_ID: ", order.MB_ID, ": ", "OD_NO: ", 
+          order.OD_NO, ": ", "OD_STATUS: ", OSinCH)
 print()
 print("#使用更多SQL語句 ----------------------------")
 query = Pet.select().where(Pet.animal_type == 'cat')
 for pet in query:
     print("Pet's name: ", pet.name, ": ", "Owner's name: ", pet.owner.name)
-
+query = ORDERS.select().where(ORDERS.MB_ID == 'soowii123')
+for order in query:
+    OS=order.OD_STATUS
+    if(OS==1):OSinCH="發貨中"
+    if(OS==2):OSinCH="已發貨"
+    if(OS==3):OSinCH="已到達"
+    if(OS==4):OSinCH="已取貨"
+    if(OS==5):OSinCH="退貨"
+    print("MB_ID: ", order.MB_ID, ": ", "OD_NO: ", 
+          order.OD_NO, ": ", "OD_STATUS: ", OSinCH)
 print()
 print("#關閉連線------------------------------------")
 #if db:
-#    db.close()
+db.close()

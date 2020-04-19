@@ -76,6 +76,9 @@ def callback(request):
                     elif mtext[:3] == '###' and len(mtext) > 3:  #處理LIFF傳回的FORM資料
                         func12liff.manageForm(event, mtext, userid)
                         
+                    elif mtext[:3] == '$$$' and len(mtext) > 3:  #處理LIFF傳回的FORM資料
+                        func12liff.manageOrders(event, mtext, userid, user_profile_json)
+                        
                     elif mtext[:9] == 'soowiiSay' and len(mtext) > 9:  #推播給所有顧客
                         func12liff.pushMessage(event, mtext)
                         

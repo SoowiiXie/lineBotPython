@@ -5,11 +5,11 @@ from linebot.models import TextSendMessage,TemplateSendMessage,\
 ConfirmTemplate,PostbackTemplateAction
 
 from PythyAPI.models import teamUp, users
-from PythyAPI.modelsPG import GROUPER
+from PythyAPI.modelsPG import GROUPER, ORDERS
 
 import datetime #20200418
 import peewee #20200419
-
+import json #20200420
 db = peewee.PostgresqlDatabase('daqfqhdshludoq',
                           user='tlnlkxrtnbepdl',
                           password='2a372ee7bedb7e93309cb56336a42fe8824885adb6a6509d27d86cdba914c5d3',
@@ -93,6 +93,42 @@ def manageForm(event, mtext, user_id):  #處理LIFF傳回的FORM資料
     except:
         line_bot_api.reply_message(event.reply_token,\
                                    TextSendMessage(text='manageForm發生錯誤！'))
+
+def manageOrders(event, mtext, user_id, user_profile_json):  #處理LIFF傳回的FORM資料
+    user_profile_loads = json.loads(user_profile_json)
+    try:
+        flist = mtext[3:].split('/')  #去除前三個「#」字元再分解字串
+        mb_id = flist[0]  #取得輸入資料
+        gender = flist[1]
+        phone = flist[2]
+        
+        db.connect()
+        LineUpdate = ORDERS.select().where(ORDERS.MB_ID == mb_id).get()
+        LineUpdate.MB_LINE_ID = user_id
+        LineUpdate.MB_LINE_PIC = user_profile_loads["picture_url"]
+        LineUpdate.MB_LINE_DISPLAY = user_profile_loads["display_name"]
+        LineUpdate.MB_LINE_STATUS = user_profile_loads["status_message"]
+        LineUpdate.save(),'#returns:1'
+        query = ORDERS.select().where(ORDERS.MB_ID == mb_id)
+        for order in query:
+            OS=order.OD_STATUS
+            if(OS==1):OSinCH="發貨中"
+            if(OS==2):OSinCH="已發貨"
+            if(OS==3):OSinCH="已到達"
+            if(OS==4):OSinCH="已取貨"
+            if(OS==5):OSinCH="退貨"
+            text1 = "您的訂單資料如下："
+            text1 += "\n帳號：" + order.MB_ID
+            text1 += "\n訂單編號：" + order.OD_NO
+            text1 += "\n狀態：" + OSinCH + "\n"
+        message = TextSendMessage(  #顯示訂房資料
+            text = text1
+        )
+        db.close()
+        line_bot_api.reply_message(event.reply_token,message)
+    except:
+        line_bot_api.reply_message(event.reply_token,\
+                                   TextSendMessage(text='manageOrders發生錯誤！'))
 
 def sendYes(event, user_id):  #處理取消訂房
     try:
