@@ -10,10 +10,10 @@ from PythyAPI.modelsPG import GROUPER, ORDERS
 import datetime #20200418
 import peewee #20200419
 import json #20200420
-db = peewee.PostgresqlDatabase('daqfqhdshludoq',
-                          user='tlnlkxrtnbepdl',
-                          password='2a372ee7bedb7e93309cb56336a42fe8824885adb6a6509d27d86cdba914c5d3',
-                          host='ec2-52-86-73-86.compute-1.amazonaws.com',
+db = peewee.PostgresqlDatabase('d5o37ss0mrmndl',
+                          user='rcccchvvxjnxbw',
+                          password='42bc0d8ef563d2f91b1b2bfb222fdcc3900f9368f2ed287c30b06fbbcf7e6469',
+                          host='ec2-3-231-16-122.compute-1.amazonaws.com',
                           port=5432)
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
