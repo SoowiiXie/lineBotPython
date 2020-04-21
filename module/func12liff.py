@@ -105,11 +105,15 @@ def manageOrders(event, mtext, user_id, user_profile_json):  #處理LIFF傳回�
         db.connect()
         LineUpdate = ORDERS.select().where(ORDERS.MB_ID == mb_id).get()
         LineUpdate.MB_LINE_ID = user_id
-        LineUpdate.MB_LINE_PIC = user_profile_loads["picture_url"]
         LineUpdate.MB_LINE_DISPLAY = user_profile_loads["display_name"]
-        LineUpdate.MB_LINE_STATUS = user_profile_loads["status_message"]
+        if (user_profile_loads["picture_url"] is not None):
+            LineUpdate.MB_LINE_PIC = user_profile_loads["picture_url"]
+        if not (user_profile_loads["status_message"] == "" or user_profile_loads["status_message"] is None):
+            LineUpdate.MB_LINE_STATUS = user_profile_loads["status_message"]
         LineUpdate.save(),'#returns:1'
         query = ORDERS.select().where(ORDERS.MB_ID == mb_id)
+        count = 0
+        text1 = "您的\n"
         for order in query:
             OS=order.OD_STATUS
             if(OS==1):OSinCH="發貨中"
@@ -117,7 +121,8 @@ def manageOrders(event, mtext, user_id, user_profile_json):  #處理LIFF傳回�
             if(OS==3):OSinCH="已到達"
             if(OS==4):OSinCH="已取貨"
             if(OS==5):OSinCH="退貨"
-            text1 = "您的訂單資料如下："
+            count+=1
+            text1 += "第"+str(count)+"筆訂單資料如下："
             text1 += "\n帳號：" + order.MB_ID
             text1 += "\n訂單編號：" + order.OD_NO
             text1 += "\n狀態：" + OSinCH + "\n"

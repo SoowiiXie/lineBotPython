@@ -60,6 +60,10 @@ class ORDERS(peewee.Model):
 ##creat_table()
 #db.create_tables([ORDERS, GRP_DETAIL])
 #db.close()
+        
+##insert-2
+#ORDERS.create(OD_NO='20200324-000006', MB_ID='weijhih123', OD_STATUS=2)
+#db.close()
 
 ##drop_table()
 #db.drop_tables([ORDERS, GRP_DETAIL])
