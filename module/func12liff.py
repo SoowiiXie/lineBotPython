@@ -103,14 +103,14 @@ def manageOrders(event, mtext, user_id, user_profile_json):  #處理LIFF傳回�
         phone = flist[2]
         
         db.connect()
-        LineUpdate = ORDERS.select().where(ORDERS.MB_ID == mb_id).get()
-        LineUpdate.MB_LINE_ID = user_id
-        LineUpdate.MB_LINE_DISPLAY = user_profile_loads["display_name"]
-        if (user_profile_loads["picture_url"] is not None):
-            LineUpdate.MB_LINE_PIC = user_profile_loads["picture_url"]
-        if not (user_profile_loads["status_message"] == "" or user_profile_loads["status_message"] is None):
-            LineUpdate.MB_LINE_STATUS = user_profile_loads["status_message"]
-        LineUpdate.save(),'#returns:1'
+#        LineUpdate = ORDERS.select().where(ORDERS.MB_ID == mb_id).get()
+#        LineUpdate.MB_LINE_ID = user_id
+#        LineUpdate.MB_LINE_DISPLAY = user_profile_loads["display_name"]
+#        if (user_profile_loads["picture_url"] is not None):
+#            LineUpdate.MB_LINE_PIC = user_profile_loads["picture_url"]
+#        if not (user_profile_loads["status_message"] == "" or user_profile_loads["status_message"] is None):
+#            LineUpdate.MB_LINE_STATUS = user_profile_loads["status_message"]
+#        LineUpdate.save(),'#returns:1'
         query = ORDERS.select().where(ORDERS.MB_ID == mb_id)
         count = 0
         text1 = "您的\n"
@@ -126,6 +126,15 @@ def manageOrders(event, mtext, user_id, user_profile_json):  #處理LIFF傳回�
             text1 += "\n帳號：" + order.MB_ID
             text1 += "\n訂單編號：" + order.OD_NO
             text1 += "\n狀態：" + OSinCH + "\n"
+#           把每筆訂單都放入line資訊，因為表格沒做好正規化
+            LineUpdate = ORDERS.select().where(ORDERS.MB_ID == mb_id).get()
+            LineUpdate.MB_LINE_ID = user_id
+            LineUpdate.MB_LINE_DISPLAY = user_profile_loads["display_name"]
+            if (user_profile_loads["picture_url"] is not None):
+                LineUpdate.MB_LINE_PIC = user_profile_loads["picture_url"]
+            if not (user_profile_loads["status_message"] == "" or user_profile_loads["status_message"] is None):
+                LineUpdate.MB_LINE_STATUS = user_profile_loads["status_message"]
+            LineUpdate.save(),'#returns:1'
         message = TextSendMessage(  #顯示訂房資料
             text = text1
         )
