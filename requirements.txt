@@ -17,7 +17,7 @@ twder==0.1.4
 Flask==1.1.1
 html5lib==1.0.1
 json5==0.8.5
-lxml==4.4.1
+lxml==4.6.5
 translate==3.5.0
 six==1.14.0
 astroid==2.3.1
