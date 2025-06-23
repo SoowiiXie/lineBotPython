@@ -17,4 +17,4 @@ class teamUp(models.Model):#12
     timein = models.CharField(max_length=20, null=False)
     
     def __str__(self):
-        return self.id
+        return str(self.id)
